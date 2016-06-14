@@ -25,5 +25,12 @@ RUN echo '#!/bin/sh' > /usr/sbin/policy-rc.d \
 # enable the universe
 RUN sed -i 's/^#\s*\(deb.*universe\)$/\1/g' /etc/apt/sources.list
 ENV TERM=linux
+ENV EDITOR=nano
+RUN apt-get update && \
+  echo 'APT::Install-Recommends 0;' >> /etc/apt/apt.conf.d/01norecommends && \
+  echo 'APT::Install-Suggests 0;' >> /etc/apt/apt.conf.d/01norecommends && \
+  apt-get update && \
+  DEBIAN_FRONTEND=noninteractive apt-get install -y nano wget sudo net-tools ca-certificates unzip && \
+  rm -rf /var/lib/apt/lists/*
 # overwrite this with 'CMD []' in a dependent Dockerfile
 CMD ["/bin/bash"]
