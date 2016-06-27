@@ -26,7 +26,7 @@ RUN echo '#!/bin/sh' > /usr/sbin/policy-rc.d \
 RUN sed -i 's/^#\s*\(deb.*universe\)$/\1/g' /etc/apt/sources.list
 ENV TERM=linux
 ENV EDITOR=nano
-RUN apt-get update && \
+RUN echo "nameserver 8.8.8.8" >/etc/resolv.conf && apt-get update && \
   echo 'APT::Install-Recommends 0;' >> /etc/apt/apt.conf.d/01norecommends && \
   echo 'APT::Install-Suggests 0;' >> /etc/apt/apt.conf.d/01norecommends && \
   apt-get update && \
