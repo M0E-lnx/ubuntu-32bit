@@ -30,7 +30,11 @@ RUN echo "nameserver 8.8.8.8" >/etc/resolv.conf && apt-get update && \
   echo 'APT::Install-Recommends 0;' >> /etc/apt/apt.conf.d/01norecommends && \
   echo 'APT::Install-Suggests 0;' >> /etc/apt/apt.conf.d/01norecommends && \
   apt-get update && \
-  DEBIAN_FRONTEND=noninteractive apt-get install -y nano wget sudo net-tools ca-certificates unzip && \
-  rm -rf /var/lib/apt/lists/*
+  DEBIAN_FRONTEND=noninteractive apt-get install -y nano wget sudo net-tools software-properties-common \
+  ca-certificates unzip && \
+  apt-add-repository -y ppa:brightbox/ruby-ng && \
+  apt-get -y purge software-properties-common && apt-get -y autoremove && \
+  rm -rf /var/lib/apt/lists/* 
+
 # overwrite this with 'CMD []' in a dependent Dockerfile
 CMD ["/bin/bash"]
